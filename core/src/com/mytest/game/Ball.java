@@ -25,7 +25,7 @@ public class Ball {
         if (x <= size || x >= Gdx.graphics.getWidth() - size) {
             xSpeed = -xSpeed;
         }
-        if (y <= size || y >= Gdx.graphics.getHeight() - size) {
+        if (y >= Gdx.graphics.getHeight() - size) {
             ySpeed = -ySpeed;
         }
     }
@@ -37,11 +37,13 @@ public class Ball {
     public void checkCollision(Paddle paddle) {
         if(collidesWith(paddle)) {
             color = Color.GREEN;
+            ySpeed = -ySpeed;
         }
         else {
             color = Color.WHITE;
         }
     }
+
     private boolean collidesWith(Paddle paddle) {
 
         if (paddle.y + paddle.height >= y - size && paddle.y <= y + size &&
@@ -51,4 +53,22 @@ public class Ball {
             return false;
         }
     }
+
+    public void checkCollisionSmash(Brick brick) {
+        if(collidesWithBrick(brick)){
+            ySpeed = - ySpeed;
+            brick.destroyed = true;
+        }
+    }
+
+    private boolean collidesWithBrick(Brick brick) {
+
+        if (brick.y + brick.height >= y - size && brick.y <= y + size &&
+                brick.x + brick.width >= x - size && brick.x <= x + size) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
